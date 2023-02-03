@@ -1,5 +1,5 @@
 import Header from './Header';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -45,13 +45,21 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+const InnerStyles = styled.div`
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  padding: 2rem;
+`;
+
 export default function Page({ children }) {
   return (
-    <>
+    <div>
       <GlobalStyles />
       <Header />
-      <h2>I am the page component</h2>
-      {children}
-    </>
+      <InnerStyles>
+        {children}
+      </InnerStyles>
+
+    </div>
   )
 }
