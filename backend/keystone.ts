@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { config } from '@keystone-6/core';
-import User from './schemas/User'
-const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
+import User from './schemas/User';
 
+const databaseURL = process.env.DATABASE_URL || 'file:./keystone.db';
 
 const sessionConfig = {
     maxAtge: 60 * 60 * 24 * 360, // How long should they stay signed in?
@@ -11,8 +11,10 @@ const sessionConfig = {
 
 export default config({
     server: {
-        cors: [process.env.FRONTEND_URL!],
-        credentials: true,
+        cors: {
+            origin: [process.env.FRONTEND_URL!],
+            credentials: true,
+        },
 
     },
     db: {
@@ -24,7 +26,7 @@ export default config({
         // Schema items go in here
         User
     },
-    ui : {
+    ui: {
         // TODO: change this for roles
         isAccessAllowed: () => true,
     },

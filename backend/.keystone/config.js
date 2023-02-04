@@ -23,23 +23,47 @@ __export(keystone_exports, {
 });
 module.exports = __toCommonJS(keystone_exports);
 var import_config = require("dotenv/config");
+var import_core2 = require("@keystone-6/core");
+
+// schemas/User.ts
 var import_core = require("@keystone-6/core");
+var import_access = require("@keystone-6/core/access");
+var import_fields = require("@keystone-6/core/fields");
+var User = (0, import_core.list)({
+  access: {
+    operation: {
+      ...(0, import_access.allOperations)(import_access.allowAll)
+    }
+  },
+  fields: {
+    name: (0, import_fields.text)({ validation: { isRequired: true } }),
+    email: (0, import_fields.text)({ isIndexed: "unique", validation: { isRequired: true } }),
+    password: (0, import_fields.password)()
+  }
+});
+var User_default = User;
+
+// keystone.ts
 var databaseURL = process.env.DATABASE_URL || "file:./keystone.db";
 var sessionConfig = {
   maxAtge: 60 * 60 * 24 * 360,
   secret: process.env.COOKIE_SECRET || "This secret should only be used in testing"
 };
-var keystone_default = (0, import_core.config)(
+var keystone_default = (0, import_core2.config)(
   {
     server: {
-      cors: [process.env.FRONTEND_URL],
-      credentials: true
+      cors: {
+        origin: [process.env.FRONTEND_URL],
+        credentials: true
+      }
     },
     db: {
       provider: "sqlite",
       url: databaseURL
     },
-    lists: {},
+    lists: {
+      User: User_default
+    },
     ui: {
       isAccessAllowed: () => true
     }
