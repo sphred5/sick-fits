@@ -2,7 +2,7 @@ import { list } from "@keystone-6/core";
 import { allOperations, allowAll } from '@keystone-6/core/access';
 import { text, password } from "@keystone-6/core/fields";
 
-const User = list({
+export const User = list({
     access: {
         operation: {
             ...allOperations(allowAll),
@@ -11,8 +11,8 @@ const User = list({
     fields: {
         name: text({ validation: { isRequired: true } }),
         email: text({ isIndexed: 'unique', validation: { isRequired: true } }),
-        password: password()
+        password: password(),
+
+        // TODO add roles cart and orders
     },
 });
-
-export default User;
